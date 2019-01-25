@@ -4,7 +4,7 @@
 
 <div class="row pad-10">
   <div class="col-8">
-    <h3>Mapa</h3>
+    <h3>Mapa <small *ngIf="siguiendoNombre">siguiendo a: {{ siguiendoNombre }}</small></h3>
     <agm-map [latitude]="lat" [longitude]="lng" [zoom]="13">
       <agm-marker *ngFor="let i of items" [latitude]="i.lat" [longitude]="i.lng"></agm-marker>
     </agm-map>
@@ -12,7 +12,9 @@
   <div class="col-4">
       <h3>Personas</h3>
       <div class="list-group">
-        <a *ngFor="let i of items" href="#" class="list-group-item list-group-item-action">{{i.nombre}}</a>
+        <a *ngFor="let i of items" href="#" class="list-group-item list-group-item-action" (click)="seguir(i)">{{i.nombre}}</a>
       </div>
+      <br>
+      <button *ngIf="siguiendoNombre" (click)="dejarSeguir()" class="btn btn-primary btn-block">Dejar de seguir</button>
   </div>
 </div>

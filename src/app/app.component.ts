@@ -12,6 +12,8 @@ export class AppComponent {
   lng: number = 7.809007;
   items: Tax [] = [];
   init = false;
+  siguiendo: string = null;
+  siguiendoNombre: string = null;
 
   constructor(db: AngularFirestore) {
     db.collection('usuarios').valueChanges().subscribe((data: Tax[]) => {
@@ -22,7 +24,29 @@ export class AppComponent {
         this.lng = data[0].lng;
         this.init = true;
       }
+
+      if (this.siguiendo) {
+        data.forEach(taxista => {
+          if (taxista.clave === this.siguiendo) {
+            this.lat = taxista.lat;
+            this.lng = taxista.lng;
+            this.siguiendoNombre = taxista.nombre;
+          }
+        });
+      }
     });
+  }
+
+  seguir(tax: Tax) {
+    this.siguiendo = tax.clave;
+    this.siguiendoNombre = tax.nombre;
+    this.lat = tax.lat;
+    this.lng = tax.lng;
+  }
+
+  dejarSeguir() {
+    this.siguiendo = null;
+    this.siguiendoNombre = null;
   }
 }
 
